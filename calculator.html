@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>calculator</title>
+  <style>
+    html {
+      font-size: 62.5%;
+      box-sizing: border-box;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: inherit;
+    }
+
+    body {
+      width: 100vw;
+      min-height: 100vh;
+      background: 
+      radial-gradient(50% 100%, rgba(255, 255, 255, 0.2), 
+      rgba(255, 255, 255, 0)), 
+      linear-gradient(90deg, rgba(50, 100, 170, 0.7) 1px, transparent 0), 
+      linear-gradient(180deg, rgba(50, 100, 170, 0.7) 1px, transparent 0), 
+      linear-gradient(90deg, rgba(50, 100, 170, 0.4) 1px, transparent 0), 
+      linear-gradient(180deg, rgba(50, 100, 170, 0.4) 1px, transparent 0), 
+      linear-gradient(90deg, #3264aa 2px, transparent 0), 
+      linear-gradient(180deg, #3264aa 2px, transparent 0);
+      background-color: #074b97;
+      background-size: 
+      100% 100%, 
+      50px 50px, 
+      50px 50px, 
+      25px 25px, 
+      25px 25px,
+      100px 100px,
+      100px 100px,
+      cover;
+      background-attachment: local;
+      background-blend-mode: lighten;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .calculator {
+      background: #1d1e22;
+      padding: 2.8rem 0.64rem 0.64rem;
+      color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 0.3rem 3rem 0.1rem rgba(0, 0, 0, 0.6);
+      position: relative;
+      width: 40rem;
+    }
+
+    .calculator-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1.4rem);
+      grid-column-gap: 0.6rem;
+      position: absolute;
+      top: 0.64rem;
+      left: 0.64rem;
+    }
+    .calculator-bar > div {
+      cursor: pointer;
+      height: 1.4rem;
+      width: 1.4rem;
+      border-radius: 100%;
+      position: relative;
+    }
+    .calculator-bar > div::before, .calculator-bar > div::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color: #1d1e22;
+      opacity: 0;
+      transition: opacity 0.2s linear;
+    }
+    .calculator-bar:hover div::before, .calculator-bar:hover div::after {
+      transition: opacity 0.2s linear;
+      opacity: 1;
+    }
+    .calculator-bar .close {
+      background: #ff5a5a;
+    }
+    .calculator-bar .close::before {
+      transform: translate(-50%, -50%) rotate(-45deg);
+      width: 1rem;
+      height: 1px;
+      background: currentColor;
+    }
+    .calculator-bar .close::after {
+      transform: translate(-50%, -50%) rotate(45deg);
+      width: 1rem;
+      height: 1px;
+      background: currentColor;
+    }
+    .calculator-bar .minimize {
+      background: #5adc5a;
+    }
+    .calculator-bar .minimize::before {
+      transform: translate(-50%, -50%);
+      width: 1rem;
+      height: 1px;
+      background: currentColor;
+    }
+    .calculator-bar .maximize {
+      background: #ffc85a;
+    }
+    .calculator-bar .maximize::before {
+      border: 5px solid transparent;
+      border-color: transparent transparent transparent currentColor;
+      transform: translate(0%, -90%) rotate(-45deg);
+    }
+    .calculator-bar .maximize::after {
+      border: 5px solid transparent;
+      border-color: transparent currentColor transparent transparent;
+      transform: translate(-90%, 0%) rotate(-45deg);
+    }
+
+    .calculator-display {
+      box-sizing: border-box;
+      font-size: 5rem;
+      height: 80px;
+      width: 100%;
+      padding: 0 20px;
+      background-color: #1d1e22;
+      color: #fff;
+      text-align: right;
+      overflow: hidden;
+    }
+
+    button {
+      height: 60px;
+      border-radius: 3px;
+      border: 1px solid #c4c4c4;
+      font-size: 2rem;
+      color: #333;
+      background-color: #fff;
+      background-image: linear-gradient(to bottom, transparent, transparent 50%, rgba(0, 0, 0, 0.04));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 0 rgba(255, 255, 255, 0.15), 0 1px 0 0 rgba(255, 255, 255, 0.15);
+      text-shadow: 0 1px rgba(255, 255, 255, 0.4);
+    }
+    button:hover {
+      background-color: #eaeaea;
+    }
+    button.operator {
+      background-color: #eee;
+      color: #337cac;
+    }
+    button.all-clear {
+      background-color: #f0595f;
+      border-color: #b0353a;
+      color: #fff;
+    }
+    button.all-clear:hover {
+      background-color: #f17377;
+    }
+    button.equal-sign {
+      background-color: #2e86c0;
+      border-color: #337cac;
+      color: #fff;
+    }
+    button.equal-sign:hover {
+      background-color: #4e9ed4;
+    }
+
+    .calculator-keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 2rem;
+      padding: 2rem 1.36rem;
+      background-color: #fff;
+      border-radius: 0 0 0.5rem 0.5rem;
+    }
+
+    .equal-sign {
+      grid-row: 2/span 4;
+      grid-column: 4/5;
+      height: 100%;
+    }
+    input{
+      -webkit-appearance:none;
+      border: none;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+</style>
+</head>
+
+<body>
+  <div class="calculator">
+    <div class="calculator-bar">
+      <div class="close"></div>
+      <div class="minimize"></div>
+      <div class="maximize"></div>
+    </div>
+
+    <input class="calculator-display" type="number" value="0" />
+    <div class="calculator-keys">
+      <button type="button" class="operator" value="+">+</button>
+      <button type="button" class="operator" value="-">-</button>
+      <button type="button" class="operator" value="*">&times;</button>
+      <button type="button" class="operator" value="/">&divide;</button>
+
+      <button type="button" class="number" value="7">7</button>
+      <button type="button" class="number" value="8">8</button>
+      <button type="button" class="number" value="9">9</button>
+
+      <button type="button" class="number" value="4">4</button>
+      <button type="button" class="number" value="5">5</button>
+      <button type="button" class="number" value="6">6</button>
+
+      <button type="button" class="number" value="1">1</button>
+      <button type="button" class="number" value="2">2</button>
+      <button type="button" class="number" value="3">3</button>
+
+      <button type="button" class="number" value="0">0</button>
+      <button type="button" class="decimal number" value=".">.</button>
+
+      <button type="button" class="all-clear" value="all-clear">AC</button>
+
+      <button type="button" class="equal-sign" value="=">=</button>
+    </div>
+  </div>
+  <script>
+    class Calculator {
+      constructor(Seletor) {
+        //绑定input
+        this.data = new Proxy({
+          input: "0", //输入框内显示的值
+          old: "0", //等待运算的输入记录
+          complete: false, //是否已经完成运算
+          last: '', //最后一次运算使用的算法
+        }, {
+          set(target, property, value) {
+            target[property] = value;
+            if (property == 'input')
+              document.querySelector(Seletor.inputSeletor).value = value;
+            return true
+          }
+        });
+        let _this = this;
+        document.querySelector(Seletor.inputSeletor).addEventListener('input', e => {
+          _this.data.input = e.target.value;
+        })
+        Seletor.seletors.forEach(data => {
+          let selector;
+          if (data.single) {
+            selector = document.querySelector(data.seletor);
+          } else {
+            selector = document.querySelectorAll(data.seletor);
+          }
+          eventBinds(selector, _this[data.func].bind(_this))
+        })
+      }
+      //增加数字
+      addNumber(e) {
+        let data = this.data;
+        if (data.complete) {
+          this.clear();
+          data.complete = false;
+        }
+        let value = e.target.value;
+        if (data.input == '0' && value != '.') {
+          data.input = value.toString();
+        } else {
+          data.input += value.toString();
+        }
+      }
+
+      //增加运算符
+      addOperator(e) {
+        let data = this.data;
+        if (data.old != '0') {
+          if (['+', '-', '*', '/'].includes(data.old[data.old.length - 1])) {
+            data.old = data.old.substr(0, data.old.length - 1) + e.target.value;
+          } else {
+            data.old = `(${data.old}${data.input})` + e.target.value;
+          }
+        } else {
+          data.old = data.input + e.target.value;
+        }
+        data.input = "0";
+        if (data.complete) {
+          data.complete = false;
+        }
+      }
+
+      //运算
+      operation() {
+        let data = this.data;
+        if (!['0', '0/'].includes(data.old) || data.input != 0) {
+          if (data.complete) {
+            data.old = data.input + data.last;
+          } else {
+            data.last = data.old[data.old.length - 1] + data.input;
+            data.old += data.input;
+          }
+          // console.log(data)
+          data.input = eval(data.old);
+          data.old = "0";
+          data.complete = true;
+        }
+      }
+      //清空
+      clear() {
+        let data = this.data;
+        data.input = "0";
+        data.old = "0";
+      }
+    }
+    const bindSeletor = {
+      inputSeletor: '.calculator-display',
+      seletors: [{
+          seletor: '.number',
+          single: false,
+          func: 'addNumber',
+        }, {
+          seletor: '.all-clear',
+          single: true,
+          func: 'clear',
+        },
+        {
+          seletor: '.operator',
+          single: false,
+          func: 'addOperator',
+        },
+        {
+          seletor: '.equal-sign',
+          single: true,
+          func: 'operation',
+        }
+      ]
+    };
+    new Calculator(bindSeletor);
+
+    //批量绑定
+    function eventBinds(el, func) {
+      if (el.length) {
+        for (let i = 0; i < el.length; i++) {
+          el[i].addEventListener('click', e => {
+            func(e)
+          })
+        }
+      } else {
+        el.addEventListener('click', e => {
+          func(e)
+        })
+      }
+    }
+  </script>
+</body>
+
+</html>
