@@ -23,25 +23,25 @@
     body {
       width: 100vw;
       min-height: 100vh;
-      background: 
-      radial-gradient(50% 100%, rgba(255, 255, 255, 0.2), 
-      rgba(255, 255, 255, 0)), 
-      linear-gradient(90deg, rgba(50, 100, 170, 0.7) 1px, transparent 0), 
-      linear-gradient(180deg, rgba(50, 100, 170, 0.7) 1px, transparent 0), 
-      linear-gradient(90deg, rgba(50, 100, 170, 0.4) 1px, transparent 0), 
-      linear-gradient(180deg, rgba(50, 100, 170, 0.4) 1px, transparent 0), 
-      linear-gradient(90deg, #3264aa 2px, transparent 0), 
-      linear-gradient(180deg, #3264aa 2px, transparent 0);
+      background:
+        radial-gradient(50% 100%, rgba(255, 255, 255, 0.2),
+          rgba(255, 255, 255, 0)),
+        linear-gradient(90deg, rgba(50, 100, 170, 0.7) 1px, transparent 0),
+        linear-gradient(180deg, rgba(50, 100, 170, 0.7) 1px, transparent 0),
+        linear-gradient(90deg, rgba(50, 100, 170, 0.4) 1px, transparent 0),
+        linear-gradient(180deg, rgba(50, 100, 170, 0.4) 1px, transparent 0),
+        linear-gradient(90deg, #3264aa 2px, transparent 0),
+        linear-gradient(180deg, #3264aa 2px, transparent 0);
       background-color: #074b97;
-      background-size: 
-      100% 100%, 
-      50px 50px, 
-      50px 50px, 
-      25px 25px, 
-      25px 25px,
-      100px 100px,
-      100px 100px,
-      cover;
+      background-size:
+        100% 100%,
+        50px 50px,
+        50px 50px,
+        25px 25px,
+        25px 25px,
+        100px 100px,
+        100px 100px,
+        cover;
       background-attachment: local;
       background-blend-mode: lighten;
       display: flex;
@@ -67,14 +67,17 @@
       top: 0.64rem;
       left: 0.64rem;
     }
-    .calculator-bar > div {
+
+    .calculator-bar>div {
       cursor: pointer;
       height: 1.4rem;
       width: 1.4rem;
       border-radius: 100%;
       position: relative;
     }
-    .calculator-bar > div::before, .calculator-bar > div::after {
+
+    .calculator-bar>div::before,
+    .calculator-bar>div::after {
       content: "";
       position: absolute;
       top: 50%;
@@ -83,42 +86,52 @@
       opacity: 0;
       transition: opacity 0.2s linear;
     }
-    .calculator-bar:hover div::before, .calculator-bar:hover div::after {
+
+    .calculator-bar:hover div::before,
+    .calculator-bar:hover div::after {
       transition: opacity 0.2s linear;
       opacity: 1;
     }
+
     .calculator-bar .close {
       background: #ff5a5a;
     }
+
     .calculator-bar .close::before {
       transform: translate(-50%, -50%) rotate(-45deg);
       width: 1rem;
       height: 1px;
       background: currentColor;
     }
+
     .calculator-bar .close::after {
       transform: translate(-50%, -50%) rotate(45deg);
       width: 1rem;
       height: 1px;
       background: currentColor;
     }
+
     .calculator-bar .minimize {
       background: #5adc5a;
     }
+
     .calculator-bar .minimize::before {
       transform: translate(-50%, -50%);
       width: 1rem;
       height: 1px;
       background: currentColor;
     }
+
     .calculator-bar .maximize {
       background: #ffc85a;
     }
+
     .calculator-bar .maximize::before {
       border: 5px solid transparent;
       border-color: transparent transparent transparent currentColor;
       transform: translate(0%, -90%) rotate(-45deg);
     }
+
     .calculator-bar .maximize::after {
       border: 5px solid transparent;
       border-color: transparent currentColor transparent transparent;
@@ -148,26 +161,32 @@
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 0 rgba(255, 255, 255, 0.15), 0 1px 0 0 rgba(255, 255, 255, 0.15);
       text-shadow: 0 1px rgba(255, 255, 255, 0.4);
     }
+
     button:hover {
       background-color: #eaeaea;
     }
+
     button.operator {
       background-color: #eee;
       color: #337cac;
     }
+
     button.all-clear {
       background-color: #f0595f;
       border-color: #b0353a;
       color: #fff;
     }
+
     button.all-clear:hover {
       background-color: #f17377;
     }
+
     button.equal-sign {
       background-color: #2e86c0;
       border-color: #337cac;
       color: #fff;
     }
+
     button.equal-sign:hover {
       background-color: #4e9ed4;
     }
@@ -186,15 +205,17 @@
       grid-column: 4/5;
       height: 100%;
     }
-    input{
-      -webkit-appearance:none;
+
+    input {
+      -webkit-appearance: none;
       border: none;
     }
+
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
+      -webkit-appearance: none;
     }
-</style>
+  </style>
 </head>
 
 <body>
@@ -322,24 +343,24 @@
     const bindSeletor = {
       inputSeletor: '.calculator-display',
       seletors: [{
-          seletor: '.number',
-          single: false,
-          func: 'addNumber',
-        }, {
-          seletor: '.all-clear',
-          single: true,
-          func: 'clear',
-        },
-        {
-          seletor: '.operator',
-          single: false,
-          func: 'addOperator',
-        },
-        {
-          seletor: '.equal-sign',
-          single: true,
-          func: 'operation',
-        }
+        seletor: '.number',
+        single: false,
+        func: 'addNumber',
+      }, {
+        seletor: '.all-clear',
+        single: true,
+        func: 'clear',
+      },
+      {
+        seletor: '.operator',
+        single: false,
+        func: 'addOperator',
+      },
+      {
+        seletor: '.equal-sign',
+        single: true,
+        func: 'operation',
+      }
       ]
     };
     new Calculator(bindSeletor);
